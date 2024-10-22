@@ -67,6 +67,8 @@ public class Player : Entity
 {
     private int Sanity { get; set; }
     private Backpack PlayerBackpack = new Backpack("Player Backpack", 6, 2);
+    
+    
     public Player(string name, int currentHealth, int maxHealth, int strength, int hunger, bool dead, int sanity) 
         : base(name, currentHealth, maxHealth, strength, hunger, dead)
     {
@@ -108,7 +110,6 @@ public class Player : Entity
         PlayerBackpack.GrabItem();
     }
     
-
 
     public override void PrintInfo()
     {

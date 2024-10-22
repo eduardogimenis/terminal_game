@@ -108,6 +108,7 @@ public class Backpack : Item
 public class Food : Item
 {
     private int RestoreHunger { get; set; }
+    
 
     public Food(string name, int weight, int soundLevel, int restoreHunger) : base(name, weight, soundLevel)
     {
@@ -127,7 +128,7 @@ public class Food : Item
         {
             // TODO
             case 1:
-                Console.WriteLine("Eat");
+                //
                 break;
             case 2:
                 Console.WriteLine("Throw it");
@@ -136,6 +137,14 @@ public class Food : Item
                 Console.WriteLine("Remove it");
                 break;
         }
+    }
+
+    private int Eat()
+    {
+        // returns the amount of hunger restored
+        Console.WriteLine($"You ate the {Name}");
+        return RestoreHunger;
+        
     }
 
     private void ListActions()
