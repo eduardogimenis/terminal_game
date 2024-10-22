@@ -119,21 +119,28 @@ public class Food : Item
 
     public override void Use()
     {
-        Console.WriteLine($"What would you like to do with {Name}?");
-    }
-
-    private void ListActions()
-    {
         int choice;
-        Console.WriteLine($"Eat {Name}\nThrow it\nRemove it");
+        Console.WriteLine($"What would you like to do with {Name}?");
+        ListActions();
         choice = HandleVarNumber(3);
         switch (choice)
         {
             // TODO
             case 1:
+                Console.WriteLine("Eat");
+                break;
+            case 2:
+                Console.WriteLine("Throw it");
+                break;
+            case 3:
+                Console.WriteLine("Remove it");
                 break;
         }
+    }
 
+    private void ListActions()
+    {
+        Console.WriteLine($"1. Eat {Name}\n2. Throw it\n3. Remove it");
     }
 
     private int HandleVarNumber(int varNumber)
