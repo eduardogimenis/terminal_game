@@ -4,11 +4,9 @@ public class Item
     protected string Name { get; set; }
     protected int Weight { get; set; }
     protected int SoundLevel { get; set; }
+    public event EventHandler<FoodItemUsedArgs> ItemUsed;
+    protected virtual void onItemUsed(FoodItemUsedArgs args) => ItemUsed?.Invoke(this, args);
 
-    public Item()
-    {
-        
-    }
     public Item(string name, int weight, int soundLevel)
     {
         Name = name;
@@ -16,16 +14,18 @@ public class Item
         SoundLevel = soundLevel;
     }
 
-    public void GetInfo()
-    {
-        Console.WriteLine($"Name: {Name}, Weight: {Weight}, Sound Level: {SoundLevel}");
-    }
+    public void GetInfo() => Console.WriteLine($"Name: {Name}, Weight: {Weight}, Sound Level: {SoundLevel}");
 
     public virtual void Use()
     {
+        onItemUsed(new FoodItemUsedArgs(Name, 0));
         Console.WriteLine($"Using {Name}...");
     }
-    
+
+    public virtual void Choice()
+    {
+    }
+
 }
 
 public class Backpack : Item
@@ -39,20 +39,11 @@ public class Backpack : Item
         SoundLevel = soundLevel;
     }
 
-    public void AddItem(Item item)
-    {
-        items.Add(item);
-    }
+    public void AddItem(Item item) => items.Add(item);
 
-    public void RemoveItem(Item item)
-    {
-        items.Remove(item);
-    }
+    public void RemoveItem(Item item) => items.Remove(item);
 
-    public void ClearBackpack()
-    {
-        items.Clear();
-    }
+    public void ClearBackpack() => items.Clear();
 
     public void LookInside()
     {
@@ -68,7 +59,9 @@ public class Backpack : Item
         // fix ChooseItem()
         // return Item reference?
         ListItems();
-        ChooseItem().Use();
+        Item item = ChooseItem();
+        item.Choice();
+        RemoveItem(item);
     }
 
     private void ListItems()
@@ -101,7 +94,7 @@ public class Backpack : Item
 
     public override void Use()
     {
-        // TODO
+        onItemUsed(new FoodItemUsedArgs(Name, 0));
     }
 }
 
@@ -120,6 +113,11 @@ public class Food : Item
 
     public override void Use()
     {
+        onItemUsed(new FoodItemUsedArgs(Name, RestoreHunger));
+    }
+
+    public override void Choice()
+    {
         int choice;
         Console.WriteLine($"What would you like to do with {Name}?");
         ListActions();
@@ -128,7 +126,7 @@ public class Food : Item
         {
             // TODO
             case 1:
-                //
+                Use();
                 break;
             case 2:
                 Console.WriteLine("Throw it");
@@ -138,19 +136,7 @@ public class Food : Item
                 break;
         }
     }
-
-    private int Eat()
-    {
-        // returns the amount of hunger restored
-        Console.WriteLine($"You ate the {Name}");
-        return RestoreHunger;
-        
-    }
-
-    private void ListActions()
-    {
-        Console.WriteLine($"1. Eat {Name}\n2. Throw it\n3. Remove it");
-    }
+    private void ListActions() => Console.WriteLine($"1. Eat {Name}\n2. Throw it\n3. Remove it");
 
     private int HandleVarNumber(int varNumber)
     {
