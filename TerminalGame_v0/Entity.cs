@@ -65,6 +65,7 @@ public class Player : Entity
         Dead = dead;
         Sanity = sanity;
     }
+    
     public void AddItemToBackpack(Item item)
     {
         item.ItemUsed += HandleItemUsed;

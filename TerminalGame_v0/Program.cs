@@ -1,6 +1,7 @@
 ﻿using TerminalGame_v0;
 
 
+
 Player player = new Player("Player", 10, 10, 2, 0, false, 10);
 Food apple = new Food("Apple", 1, 1, 8);
 Food pear = new Food("Pear", 1, 1, 8);

@@ -9,4 +9,5 @@ public class FoodItemUsedArgs : EventArgs
         Console.WriteLine($"Consuming {itemName} for {hungerRestore} hunger!");
         HungerRestore = hungerRestore;
     }
+    
 }
